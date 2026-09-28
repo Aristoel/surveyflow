@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SurveyFlow — Paid Surveys & Rewards</title>
+
+  <meta name="description"
+        content="SurveyFlow connects people with paid research surveys and rewards in USD and NGN.">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: auto;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      color: #2563eb;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #374151;
+      margin-left: 18px;
+      font-weight: 600;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      max-width: 750px;
+      margin: auto;
+      line-height: 1.15;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 20px auto 30px;
+      font-size: 18px;
+      opacity: 0.95;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 13px 22px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .primary {
+      background: white;
+      color: #2563eb;
+    }
+
+    .secondary {
+      border: 1px solid rgba(255,255,255,.7);
+      color: white;
+    }
+
+    .section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 65px 20px;
+    }
+
+    .section h2 {
+      text-align: center;
+      font-size: 30px;
+      margin-bottom: 12px;
+    }
+
+    .section-intro {
+      text-align: center;
+      max-width: 650px;
+      margin: 0 auto 35px;
+      color: #6b7280;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 28px;
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 5px 18px rgba(0,0,0,.04);
+    }
+
+    .icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #6b7280;
+    }
+
+    .currencies {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .currency {
+      background: white;
+      padding: 30px;
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .currency strong {
+      display: block;
+      font-size: 32px;
+      color: #2563eb;
+      margin-bottom: 8px;
+    }
+
+    .cta {
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 65px 20px;
+    }
+
+    .cta h2 {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .cta p {
+      color: #d1d5db;
+      margin-bottom: 25px;
+    }
+
+    footer {
+      background: #0b1120;
+      color: #9ca3af;
+      text-align: center;
+      padding: 25px 20px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .currencies {
+        grid-template-columns: 1fr;
+      }
+
+      nav a {
+        margin-left: 8px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">SurveyFlow</div>
+
+    <nav>
+      <a href="#how">How It Works</a>
+      <a href="#rewards">Rewards</a>
+      <a href="#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Share Your Opinion. Earn Rewards.</h1>
+
+  <p>
+    SurveyFlow connects participants with paid research opportunities
+    and rewards eligible survey participation.
+  </p>
+
+  <div class="buttons">
+    <a class="btn primary" href="#join">Join SurveyFlow</a>
+    <a class="btn secondary" href="#how">Learn More</a>
+  </div>
+</section>
+
+<section class="section" id="how">
+
+  <h2>How SurveyFlow Works</h2>
+
+  <p class="section-intro">
+    A simple platform for participating in research studies and
+    tracking your available rewards.
+  </p>
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="icon">👤</div>
+      <h3>Create Your Account</h3>
+      <p>
+        Register your SurveyFlow account and complete your participant
+        profile so you can be matched with relevant studies.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="icon">📋</div>
+      <h3>Take Eligible Surveys</h3>
+      <p>
+        Browse available research surveys and see the reward offered
+        before participating.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="icon">💰</div>
+      <h3>Receive Rewards</h3>
+      <p>
+        Completed and approved participation can be credited to your
+        SurveyFlow balance.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="section" id="rewards">
+
+  <h2>USD & NGN Rewards</h2>
+
+  <p class="section-intro">
+    SurveyFlow is designed to support rewards and withdrawals in
+    multiple currencies as payment infrastructure becomes available.
+  </p>
+
+  <div class="currencies">
+
+    <div class="currency">
+      <strong>$ USD</strong>
+      <span>United States Dollar</span>
+    </div>
+
+    <div class="currency">
+      <strong>₦ NGN</strong>
+      <span>Nigerian Naira</span>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="cta" id="join">
+
+  <h2>Ready to join SurveyFlow?</h2>
+
+  <p>
+    Create your account and discover available research opportunities.
+  </p>
+
+  <div class="buttons">
+    <a class="btn primary" href="#">
+      Create Account
+    </a>
+  </div>
+
+</section>
+
+<footer>
+  © 2026 SurveyFlow. All rights reserved.
+</footer>
+
+</body>
+  </html>
