@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SurveyFlow Dashboard</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .logout {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .welcome {
+      margin-bottom: 25px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 14px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    .amount {
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .survey {
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    .survey button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 13px 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">SurveyFlow</div>
+  <button class="logout" id="logoutBtn">Log Out</button>
+</header>
+
+<div class="container">
+
+  <div class="welcome">
+    <h1>Welcome to SurveyFlow</h1>
+    <p id="userEmail">Loading account...</p>
+  </div>
+
+  <div class="cards">
+
+    <div class="card">
+      <strong>USD Balance</strong>
+      <div class="amount" id="usdBalance">$0.00</div>
+    </div>
+
+    <div class="card">
+      <strong>NGN Balance</strong>
+      <div class="amount" id="ngnBalance">₦0.00</div>
+    </div>
+
+    <div class="card">
+      <strong>Surveys Completed</strong>
+      <div class="amount" id="surveysCompleted">0</div>
+    </div>
+
+  </div>
+
+  <div class="card survey">
+    <h2>Available Surveys</h2>
+    <p>No surveys are available yet.</p>
+    <button onclick="alert('Survey marketplace coming next.')">
+      Find Surveys
+    </button>
+  </div>
+
+</div>
+
+<script type="module">
+
+  import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc,
+    getDoc
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA0NEph2RV5-r6Nq-WqRPdcZSzVWRDrfnQ",
+    authDomain: "surveyflow-c8611.firebaseapp.com",
+    projectId: "surveyflow-c8611",
+    storageBucket: "surveyflow-c8611.firebasestorage.app",
+    messagingSenderId: "968026283456",
+    appId: "1:968026283456:web:b0c87b9dd7255f4e16fc25"
+  };
+
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+
+  onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+      window.location.href = "index.html";
+      return;
+    }
+
+    document.getElementById("userEmail").textContent =
+      user.email;
+
+    try {
+
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+
+        const data = userSnap.data();
+
+        document.getElementById("usdBalance").textContent =
+          "$" + Number(data.balanceUSD || 0).toFixed(2);
+
+        document.getElementById("ngnBalance").textContent =
+          "₦" + Number(data.balanceNGN || 0).toLocaleString();
+
+        document.getElementById("surveysCompleted").textContent =
+          data.surveysCompleted || 0;
+      }
+
+    } catch (error) {
+      console.error("Could not load profile:", error);
+    }
+
+  });
+
+
+  document.getElementById("logoutBtn").addEventListener(
+    "click",
+    async () => {
+
+      await signOut(auth);
+
+      window.location.href = "index.html";
+    }
+  );
+
+</script>
+
+</body>
+  </html>
