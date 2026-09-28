@@ -328,12 +328,31 @@
   © 2026 SurveyFlow. All rights reserved.
 </footer>
 <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+  import {
+    initializeApp
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
-  // Your web app's Firebase configuration
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+  // ==========================================
+  // YOUR FIREBASE CONFIG
+  // ==========================================
+  // KEEP the firebaseConfig values that you
+  // copied from Firebase Console.
   const firebaseConfig = {
     apiKey: "AIzaSyA0NEph2RV5-r6Nq-WqRPdcZSzVWRDrfnQ",
     authDomain: "surveyflow-c8611.firebaseapp.com",
@@ -343,8 +362,131 @@
     appId: "1:968026283456:web:b0c87b9dd7255f4e16fc25"
   };
 
+
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  </script>
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+
+  // ==========================================
+  // CREATE ACCOUNT
+  // ==========================================
+  window.createSurveyFlowAccount = async function () {
+
+    const email = prompt("Enter your email address:");
+    if (!email) return;
+
+    const password = prompt("Create a password (minimum 6 characters):");
+    if (!password) return;
+
+    try {
+
+      const userCredential =
+        await createUserWithEmailAndPassword(
+          auth,
+          email.trim(),
+          password
+        );
+
+      const user = userCredential.user;
+
+      // Create the user's SurveyFlow profile
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        balanceUSD: 0,
+        balanceNGN: 0,
+        role: "respondent",
+        createdAt: serverTimestamp()
+      });
+
+      alert("Account created successfully!");
+
+      window.location.href = "dashboard.html";
+
+    } catch (error) {
+
+      console.error(error);
+
+      if (error.code === "auth/email-already-in-use") {
+        alert("This email is already registered. Please log in.");
+      } else if (error.code === "auth/invalid-email") {
+        alert("Please enter a valid email address.");
+      } else if (error.code === "auth/weak-password") {
+        alert("Password must contain at least 6 characters.");
+      } else {
+        alert("Account creation failed: " + error.message);
+      }
+    }
+  };
+
+
+  // ==========================================
+  // LOGIN
+  // ==========================================
+  window.loginSurveyFlow = async function () {
+
+    const email = prompt("Enter your email address:");
+    if (!email) return;
+
+    const password = prompt("Enter your password:");
+    if (!password) return;
+
+    try {
+
+      await signInWithEmailAndPassword(
+        auth,
+        email.trim(),
+        password
+      );
+
+      alert("Login successful!");
+
+      window.location.href = "dashboard.html";
+
+    } catch (error) {
+
+      console.error(error);
+
+      if (
+        error.code === "auth/invalid-credential" ||
+        error.code === "auth/wrong-password" ||
+        error.code === "auth/user-not-found"
+      ) {
+        alert("Incorrect email or password.");
+      } else {
+        alert("Login failed: " + error.message);
+      }
+    }
+  };
+
+
+  // ==========================================
+  // LOGOUT
+  // ==========================================
+  window.logoutSurveyFlow = async function () {
+
+    await signOut(auth);
+
+    alert("You have been logged out.");
+
+    window.location.href = "index.html";
+  };
+
+
+  // ==========================================
+  // AUTH STATE
+  // ==========================================
+  onAuthStateChanged(auth, (user) => {
+
+    if (user) {
+      console.log("SurveyFlow user signed in:", user.email);
+    } else {
+      console.log("No SurveyFlow user signed in.");
+    }
+
+  });
+
+</script>
 </body>
   </html>
