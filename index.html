@@ -382,26 +382,100 @@
   // ==========================================
   // CREATE ACCOUNT
   // ==========================================
-  window.createSurveyFlowAccount = async function () {
+  window.createSurveyFlowAccount = function () {
 
-    const email = prompt("Enter your email address:");
-    if (!email) return;
+  const existing = document.getElementById("signupModal");
+  if (existing) existing.remove();
 
-    const password = prompt("Create a password (minimum 6 characters):");
-    if (!password) return;
+  const modal = document.createElement("div");
+  modal.id = "signupModal";
+
+  modal.innerHTML = `
+    <div class="signup-box">
+      <button class="signup-close" type="button" id="closeSignup">×</button>
+
+      <h2>Create Your SurveyFlow Account</h2>
+      <p class="signup-subtitle">
+        Join SurveyFlow and start discovering eligible research opportunities.
+      </p>
+
+      <form id="signupForm">
+
+        <label for="signupEmail">Email address</label>
+        <input
+          type="email"
+          id="signupEmail"
+          placeholder="you@example.com"
+          required
+        >
+
+        <label for="signupPassword">Password</label>
+        <input
+          type="password"
+          id="signupPassword"
+          placeholder="At least 6 characters"
+          minlength="6"
+          required
+        >
+
+        <label for="signupConfirmPassword">Confirm password</label>
+        <input
+          type="password"
+          id="signupConfirmPassword"
+          placeholder="Enter your password again"
+          minlength="6"
+          required
+        >
+
+        <button class="signup-submit" type="submit">
+          Create Account
+        </button>
+
+        <p class="signup-login-text">
+          Already have an account?
+          <button type="button" id="signupLoginButton">Log In</button>
+        </p>
+
+      </form>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  document.getElementById("closeSignup").onclick = function () {
+    modal.remove();
+  };
+
+  document.getElementById("signupLoginButton").onclick = function () {
+    modal.remove();
+    loginSurveyFlow();
+  };
+
+  document.getElementById("signupForm").onsubmit = async function (event) {
+
+    event.preventDefault();
+
+    const email = document.getElementById("signupEmail").value.trim();
+    const password = document.getElementById("signupPassword").value;
+    const confirmPassword =
+      document.getElementById("signupConfirmPassword").value;
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
 
     try {
 
       const userCredential =
         await createUserWithEmailAndPassword(
           auth,
-          email.trim(),
+          email,
           password
         );
 
       const user = userCredential.user;
 
-      // Create the user's SurveyFlow profile
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
         balanceUSD: 0,
@@ -429,6 +503,7 @@
       }
     }
   };
+};
 
 
   // ==========================================
