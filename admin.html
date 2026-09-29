@@ -493,7 +493,7 @@
     collection,
     addDoc,
     getDocs,
-    doc,
+    getDoc,
     updateDoc,
     deleteDoc,
     query,
@@ -501,11 +501,7 @@
   } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-  // ==========================================
-  // ADMIN EMAIL
-  // ==========================================
-
-  const ADMIN_EMAIL = "aristoxchange@gmail.com";
+  
 
 
   // ==========================================
@@ -547,19 +543,22 @@
     }
 
 
-    if (
-      !user.email ||
-      user.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()
-    ) {
+      // Check administrator role from Firestore
+  const adminDoc = await getDoc(
+    doc(db, "admins", user.uid)
+  );
 
-      alert("Administrator access required.");
+  if (!adminDoc.exists() ||
+      adminDoc.data().role !== "admin") {
 
-      await signOut(auth);
+    alert("Administrator access required.");
 
-      window.location.href = "index.html";
+    await signOut(auth);
 
-      return;
-    }
+    window.location.href = "index.html";
+
+    return;
+      }
 
 
     document.getElementById("loading").style.display = "none";
