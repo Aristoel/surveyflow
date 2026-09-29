@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SurveyFlow — Admin</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+      line-height: 1.5;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: auto;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: 800;
+    }
+
+    .admin-label {
+      color: #93c5fd;
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    .logout {
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      background: #dc2626;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px 20px 60px;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 25px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .stat {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 22px;
+    }
+
+    .stat-title {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: #2563eb;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .panel h2 {
+      margin-bottom: 8px;
+    }
+
+    .panel-description {
+      color: #6b7280;
+      margin-bottom: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 15px;
+      background: white;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .submit {
+      border: none;
+      border-radius: 8px;
+      padding: 13px 20px;
+      background: #2563eb;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .survey {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 18px;
+      margin-top: 12px;
+    }
+
+    .survey h3 {
+      margin-bottom: 5px;
+    }
+
+    .survey-meta {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .survey-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .small-button {
+      border: none;
+      border-radius: 7px;
+      padding: 9px 13px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .activate {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .deactivate {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .delete {
+      background: #111827;
+      color: white;
+    }
+
+    .withdrawal {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 18px;
+      margin-top: 12px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 25px;
+      border: 1px dashed #d1d5db;
+      border-radius: 10px;
+      color: #6b7280;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 60px 20px;
+      font-size: 18px;
+    }
+
+    #adminContent {
+      display: none;
+    }
+
+    footer {
+      background: #0b1120;
+      color: #9ca3af;
+      text-align: center;
+      padding: 25px;
+    }
+
+    @media (max-width: 700px) {
+      .stats,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+      .nav {
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div>
+      <div class="logo">SurveyFlow Admin</div>
+      <div class="admin-label">Administration Panel</div>
+    </div>
+
+    <button class="logout" onclick="logoutAdmin()">
+      Log Out
+    </button>
+  </div>
+</header>
+
+<div id="loading">
+  Checking administrator access...
+</div>
+
+<main id="adminContent">
+
+  <h1>Admin Dashboard</h1>
+
+  <p class="subtitle">
+    Manage surveys, rewards and withdrawal requests.
+  </p>
+
+  <section class="stats">
+
+    <div class="stat">
+      <div class="stat-title">Active Surveys</div>
+      <div class="stat-value" id="activeSurveyCount">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">Total Surveys</div>
+      <div class="stat-value" id="totalSurveyCount">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">Pending Withdrawals</div>
+      <div class="stat-value" id="withdrawalCount">0</div>
+    </div>
+
+  </section>
+
+
+  <!-- CREATE SURVEY -->
+
+  <section class="panel">
+
+    <h2>Create Survey</h2>
+
+    <p class="panel-description">
+      Add a legitimate research opportunity for eligible participants.
+    </p>
+
+    <form id="surveyForm">
+
+      <div class="form-grid">
+
+        <div>
+          <label for="surveyTitle">
+            Survey title
+          </label>
+
+          <input
+            id="surveyTitle"
+            type="text"
+            placeholder="Example: Consumer Shopping Study"
+            required
+          >
+        </div>
+
+
+        <div>
+          <label for="surveyProvider">
+            Research provider
+          </label>
+
+          <input
+            id="surveyProvider"
+            type="text"
+            placeholder="Example: SurveyFlow Research"
+            required
+          >
+        </div>
+
+
+        <div class="full">
+          <label for="surveyDescription">
+            Description
+          </label>
+
+          <textarea
+            id="surveyDescription"
+            placeholder="Describe the legitimate research study..."
+            required
+          ></textarea>
+        </div>
+
+
+        <div>
+          <label for="surveyRewardUSD">
+            USD reward
+          </label>
+
+          <input
+            id="surveyRewardUSD"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="5.00"
+            required
+          >
+        </div>
+
+
+        <div>
+          <label for="surveyRewardNGN">
+            NGN reward
+          </label>
+
+          <input
+            id="surveyRewardNGN"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="5000"
+            required
+          >
+        </div>
+
+
+        <div>
+          <label for="surveyUrl">
+            Survey URL
+          </label>
+
+          <input
+            id="surveyUrl"
+            type="url"
+            placeholder="https://example.com/survey"
+            required
+          >
+        </div>
+
+
+        <div>
+          <label for="surveyStatus">
+            Status
+          </label>
+
+          <select id="surveyStatus">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+
+      </div>
+
+      <br>
+
+      <button class="submit" type="submit">
+        Create Survey
+      </button>
+
+    </form>
+
+  </section>
+
+
+  <!-- SURVEYS -->
+
+  <section class="panel">
+
+    <h2>Survey Management</h2>
+
+    <p class="panel-description">
+      Surveys currently stored in SurveyFlow.
+    </p>
+
+    <div id="surveyList">
+      <div class="empty">
+        Loading surveys...
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- WITHDRAWALS -->
+
+  <section class="panel">
+
+    <h2>Withdrawal Requests</h2>
+
+    <p class="panel-description">
+      Review participant withdrawal requests.
+    </p>
+
+    <div id="withdrawalList">
+      <div class="empty">
+        Loading withdrawal requests...
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  © 2026 SurveyFlow. All rights reserved.
+</footer>
+
+
+<script type="module">
+
+  import {
+    initializeApp
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    doc,
+    updateDoc,
+    deleteDoc,
+    query,
+    orderBy
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+  // ==========================================
+  // ADMIN EMAIL
+  // ==========================================
+
+  const ADMIN_EMAIL = "aristoxchange@gmail.com";
+
+
+  // ==========================================
+  // FIREBASE CONFIG
+  // ==========================================
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA0NEph2RV5-r6Nq-WqRPdcZSzVWRDrfnQ",
+    authDomain: "surveyflow-c8611.firebaseapp.com",
+    projectId: "surveyflow-c8611",
+    storageBucket: "surveyflow-c8611.firebasestorage.app",
+    messagingSenderId: "968026283456",
+    appId: "1:968026283456:web:b0c87b9dd7255f4e16fc25"
+  };
+
+
+  // ==========================================
+  // INITIALIZE FIREBASE
+  // ==========================================
+
+  const app = initializeApp(firebaseConfig);
+
+  const auth = getAuth(app);
+
+  const db = getFirestore(app);
+
+
+  // ==========================================
+  // ADMIN AUTHENTICATION
+  // ==========================================
+
+  onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+
+      window.location.href = "index.html";
+
+      return;
+    }
+
+
+    if (
+      !user.email ||
+      user.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()
+    ) {
+
+      alert("Administrator access required.");
+
+      await signOut(auth);
+
+      window.location.href = "index.html";
+
+      return;
+    }
+
+
+    document.getElementById("loading").style.display = "none";
+
+    document.getElementById("adminContent").style.display = "block";
+
+
+    loadSurveys();
+
+    loadWithdrawals();
+
+  });
+
+
+  // ==========================================
+  // LOGOUT
+  // ==========================================
+
+  window.logoutAdmin = async function () {
+
+    await signOut(auth);
+
+    window.location.href = "index.html";
+
+  };
+
+
+  // ==========================================
+  // CREATE SURVEY
+  // ==========================================
+
+  document.getElementById("surveyForm").addEventListener(
+    "submit",
+    async function(event) {
+
+      event.preventDefault();
+
+
+      const title =
+        document.getElementById("surveyTitle").value.trim();
+
+      const provider =
+        document.getElementById("surveyProvider").value.trim();
+
+      const description =
+        document.getElementById("surveyDescription").value.trim();
+
+      const rewardUSD =
+        Number(document.getElementById("surveyRewardUSD").value);
+
+      const rewardNGN =
+        Number(document.getElementById("surveyRewardNGN").value);
+
+      const url =
+        document.getElementById("surveyUrl").value.trim();
+
+      const status =
+        document.getElementById("surveyStatus").value;
+
+
+      if (!title || !provider || !description || !url) {
+
+        alert("Please complete all required fields.");
+
+        return;
+      }
+
+
+      try {
+
+        await addDoc(
+          collection(db, "surveys"),
+          {
+            title: title,
+            provider: provider,
+            description: description,
+            rewardUSD: rewardUSD,
+            rewardNGN: rewardNGN,
+            url: url,
+            status: status,
+            createdAt: new Date().toISOString()
+          }
+        );
+
+
+        alert("Survey created successfully.");
+
+        document.getElementById("surveyForm").reset();
+
+        loadSurveys();
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Could not create survey: " +
+          error.message
+        );
+
+      }
+
+    }
+  );
+
+
+  // ==========================================
+  // LOAD SURVEYS
+  // ==========================================
+
+  async function loadSurveys() {
+
+    const list =
+      document.getElementById("surveyList");
+
+    list.innerHTML = "";
+
+    try {
+
+      const snapshot =
+        await getDocs(collection(db, "surveys"));
+
+
+      let total = 0;
+
+      let active = 0;
+
+
+      if (snapshot.empty) {
+
+        list.innerHTML =
+          '<div class="empty">No surveys created yet.</div>';
+
+      }
+
+
+      snapshot.forEach((surveyDoc) => {
+
+        total++;
+
+        const data = surveyDoc.data();
+
+        if (data.status === "active") {
+          active++;
+        }
+
+
+        const div =
+          document.createElement("div");
+
+        div.className = "survey";
+
+
+        div.innerHTML = `
+          <h3>${escapeHtml(data.title || "Untitled Survey")}</h3>
+
+          <div class="survey-meta">
+            Provider: ${escapeHtml(data.provider || "Unknown")}
+            <br>
+            USD Reward: $${Number(data.rewardUSD || 0).toFixed(2)}
+            <br>
+            NGN Reward: ₦${Number(data.rewardNGN || 0).toLocaleString("en-NG")}
+            <br>
+            Status:
+            <strong>${escapeHtml(data.status || "inactive")}</strong>
+          </div>
+
+          <p>
+            ${escapeHtml(data.description || "")}
+          </p>
+
+          <br>
+
+          <div class="survey-actions">
+
+            <button
+              class="small-button ${
+                data.status === "active"
+                ? "deactivate"
+                : "activate"
+              }"
+              data-action="toggle"
+              data-id="${surveyDoc.id}"
+              data-status="${data.status}"
+            >
+              ${
+                data.status === "active"
+                ? "Deactivate"
+                : "Activate"
+              }
+            </button>
+
+            <button
+              class="small-button delete"
+              data-action="delete"
+              data-id="${surveyDoc.id}"
+            >
+              Delete
+            </button>
+
+          </div>
+        `;
+
+
+        list.appendChild(div);
+
+      });
+
+
+      document.getElementById(
+        "totalSurveyCount"
+      ).textContent = total;
+
+      document.getElementById(
+        "activeSurveyCount"
+      ).textContent = active;
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      list.innerHTML =
+        '<div class="empty">Unable to load surveys.</div>';
+
+    }
+
+  }
+
+
+  // ==========================================
+  // SURVEY ACTIONS
+  // ==========================================
+
+  document.getElementById("surveyList").addEventListener(
+    "click",
+    async function(event) {
+
+      const button =
+        event.target.closest("button");
+
+      if (!button) return;
+
+
+      const id =
+        button.dataset.id;
+
+      const action =
+        button.dataset.action;
+
+
+      try {
+
+        if (action === "toggle") {
+
+          const current =
+            button.dataset.status;
+
+          const newStatus =
+            current === "active"
+            ? "inactive"
+            : "active";
+
+
+          await updateDoc(
+            doc(db, "surveys", id),
+            {
+              status: newStatus
+            }
+          );
+
+        }
+
+
+        if (action === "delete") {
+
+          const confirmed =
+            confirm(
+              "Delete this survey?"
+            );
+
+          if (!confirmed) return;
+
+
+          await deleteDoc(
+            doc(db, "surveys", id)
+          );
+
+        }
+
+
+        loadSurveys();
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Action failed: " +
+          error.message
+        );
+
+      }
+
+    }
+  );
+
+
+  // ==========================================
+  // LOAD WITHDRAWALS
+  // ==========================================
+
+  async function loadWithdrawals() {
+
+    const list =
+      document.getElementById("withdrawalList");
+
+    list.innerHTML = "";
+
+
+    try {
+
+      const snapshot =
+        await getDocs(
+          collection(db, "withdrawals")
+        );
+
+
+      let pending = 0;
+
+
+      if (snapshot.empty) {
+
+        list.innerHTML =
+          '<div class="empty">No withdrawal requests yet.</div>';
+
+      }
+
+
+      snapshot.forEach((withdrawalDoc) => {
+
+        const data =
+          withdrawalDoc.data();
+
+        const status =
+          data.status || "pending";
+
+
+        if (status === "pending") {
+          pending++;
+        }
+
+
+        const div =
+          document.createElement("div");
+
+        div.className = "withdrawal";
+
+
+        div.innerHTML = `
+          <strong>
+            ${escapeHtml(data.email || "Unknown user")}
+          </strong>
+
+          <br>
+
+          Amount:
+          ${data.currency === "USD" ? "$" : "₦"}
+          ${Number(data.amount || 0).toLocaleString()}
+
+          <br>
+
+          Method:
+          ${escapeHtml(data.method || "Not specified")}
+
+          <br>
+
+          Status:
+          <span class="status">
+            ${escapeHtml(status)}
+          </span>
+        `;
+
+
+        list.appendChild(div);
+
+      });
+
+
+      document.getElementById(
+        "withdrawalCount"
+      ).textContent = pending;
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      list.innerHTML =
+        '<div class="empty">Unable to load withdrawals.</div>';
+
+    }
+
+  }
+
+
+  // ==========================================
+  // HTML ESCAPE
+  // ==========================================
+
+  function escapeHtml(value) {
+
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+  }
+
+</script>
+
+</body>
+  </html>
