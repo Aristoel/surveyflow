@@ -604,21 +604,76 @@
   // ==========================================
   // LOGIN
   // ==========================================
-  window.loginSurveyFlow = async function () {
+  window.loginSurveyFlow = function () {
 
-    const email = prompt("Enter your email address:");
-    if (!email) return;
+  const existing = document.getElementById("loginModal");
+  if (existing) existing.remove();
 
-    const password = prompt("Enter your password:");
-    if (!password) return;
+  const modal = document.createElement("div");
+  modal.id = "loginModal";
+
+  modal.innerHTML = `
+    <div class="signup-box">
+      <button class="signup-close" type="button" id="closeLogin">×</button>
+
+      <h2>Log In to SurveyFlow</h2>
+
+      <p class="signup-subtitle">
+        Log in to access your SurveyFlow account.
+      </p>
+
+      <form id="loginForm">
+
+        <label for="loginEmail">Email address</label>
+        <input
+          type="email"
+          id="loginEmail"
+          placeholder="you@example.com"
+          required
+        >
+
+        <label for="loginPassword">Password</label>
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="Enter your password"
+          required
+        >
+
+        <button class="signup-submit" type="submit">
+          Log In
+        </button>
+
+        <p class="signup-login-text">
+          Don't have an account?
+          <button type="button" id="loginSignupButton">Create Account</button>
+        </p>
+
+      </form>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  document.getElementById("closeLogin").onclick = function () {
+    modal.remove();
+  };
+
+  document.getElementById("loginSignupButton").onclick = function () {
+    modal.remove();
+    createSurveyFlowAccount();
+  };
+
+  document.getElementById("loginForm").onsubmit = async function (event) {
+
+    event.preventDefault();
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
 
     try {
 
-      await signInWithEmailAndPassword(
-        auth,
-        email.trim(),
-        password
-      );
+      await signInWithEmailAndPassword(auth, email, password);
 
       alert("Login successful!");
 
@@ -628,17 +683,20 @@
 
       console.error(error);
 
-      if (
-        error.code === "auth/invalid-credential" ||
-        error.code === "auth/wrong-password" ||
-        error.code === "auth/user-not-found"
-      ) {
+      if (error.code === "auth/invalid-credential") {
         alert("Incorrect email or password.");
+      } else if (error.code === "auth/user-not-found") {
+        alert("No account was found with this email.");
+      } else if (error.code === "auth/wrong-password") {
+        alert("Incorrect password.");
+      } else if (error.code === "auth/invalid-email") {
+        alert("Please enter a valid email address.");
       } else {
         alert("Login failed: " + error.message);
       }
     }
   };
+};
 
 
   // ==========================================
