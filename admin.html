@@ -530,49 +530,88 @@
   const db = getFirestore(app);
 
 
-  // ==========================================
-  // ADMIN AUTHENTICATION
-  // ==========================================
+  // ============================================
+// ADMIN AUTHENTICATION
+// ============================================
 
-  onAuthStateChanged(auth, async (user) => {
+let adminAuthFinished = false;
+
+const adminTimeout = setTimeout(() => {
+
+  if (!adminAuthFinished) {
+
+    document.getElementById("loading").innerHTML =
+      "Unable to verify administrator access. Please refresh and try again.";
+
+  }
+
+}, 15000);
+
+onAuthStateChanged(auth, async (user) => {
+
+  try {
 
     if (!user) {
+
+      adminAuthFinished = true;
+      clearTimeout(adminTimeout);
 
       window.location.href = "index.html";
 
       return;
     }
 
+    // Check administrator role from Firestore
+    const adminDoc = await getDoc(
+      doc(db, "admins", user.uid)
+    );
 
-      // Check administrator role from Firestore
-  const adminDoc = await getDoc(
-    doc(db, "admins", user.uid)
-  );
+    if (
+      !adminDoc.exists() ||
+      adminDoc.data().role !== "admin"
+    ) {
 
-  if (!adminDoc.exists() ||
-      adminDoc.data().role !== "admin") {
+      adminAuthFinished = true;
+      clearTimeout(adminTimeout);
 
-    alert("Administrator access required.");
+      document.getElementById("loading").innerHTML =
+        "Administrator access required.";
 
-    await signOut(auth);
+      await signOut(auth);
 
-    window.location.href = "index.html";
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1000);
 
-    return;
-      }
+      return;
+    }
 
+    // Administrator verified
+    adminAuthFinished = true;
+    clearTimeout(adminTimeout);
 
     document.getElementById("loading").style.display = "none";
 
     document.getElementById("adminContent").style.display = "block";
 
+    // Load admin data
+    await loadSurveys();
 
-    loadSurveys();
+    await loadWithdrawals();
 
-    loadWithdrawals();
+  } catch (error) {
 
-  });
+    console.error("Admin authentication error:", error);
 
+    adminAuthFinished = true;
+    clearTimeout(adminTimeout);
+
+    document.getElementById("loading").innerHTML =
+      "Firebase connection error. Please refresh and try again.";
+
+  }
+
+});
 
   // ==========================================
   // LOGOUT
