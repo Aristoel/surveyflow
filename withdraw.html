@@ -21,7 +21,7 @@
     }
 
     .header {
-      background: white;
+      background: #ffffff;
       padding: 18px 20px;
       display: flex;
       justify-content: space-between;
@@ -30,74 +30,81 @@
     }
 
     .logo {
-      font-size: 22px;
+      font-size: 23px;
       font-weight: bold;
       color: #2563eb;
     }
 
-    .back {
-      text-decoration: none;
-      color: #2563eb;
+    .back-btn {
+      border: none;
+      background: #2563eb;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 10px;
       font-weight: bold;
+      cursor: pointer;
     }
 
     .container {
-      max-width: 600px;
+      width: 100%;
+      max-width: 650px;
       margin: 25px auto;
-      padding: 20px;
+      padding: 0 16px 40px;
     }
 
     .card {
       background: white;
-      border-radius: 16px;
-      padding: 25px;
+      border-radius: 18px;
+      padding: 24px;
       box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
     }
 
     h1 {
-      font-size: 27px;
+      font-size: 28px;
       margin-bottom: 8px;
     }
 
     .subtitle {
       color: #666;
       line-height: 1.5;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
 
     .balance-box {
-      background: #eef4ff;
-      border-radius: 12px;
-      padding: 18px;
-      margin-bottom: 22px;
+      background: #2563eb;
+      color: white;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 24px;
     }
 
     .balance-label {
       font-size: 14px;
-      color: #666;
+      opacity: 0.9;
+      margin-bottom: 7px;
     }
 
     .balance {
-      font-size: 29px;
+      font-size: 34px;
       font-weight: bold;
-      color: #2563eb;
-      margin-top: 5px;
     }
 
     label {
       display: block;
       font-weight: bold;
-      margin-top: 17px;
-      margin-bottom: 7px;
+      margin-bottom: 8px;
     }
 
     input,
     select {
       width: 100%;
       padding: 14px;
-      border: 1px solid #d1d5db;
-      border-radius: 9px;
+      border: 1px solid #d6dbe5;
+      border-radius: 10px;
       font-size: 16px;
+      background: white;
+      margin-bottom: 18px;
       outline: none;
     }
 
@@ -107,67 +114,65 @@
     }
 
     .summary {
-      margin-top: 22px;
-      padding: 18px;
       background: #f8fafc;
       border-radius: 12px;
-      border: 1px solid #e5e7eb;
+      padding: 17px;
+      margin-top: 5px;
+      margin-bottom: 20px;
     }
 
-    .summary-title {
-      font-weight: bold;
-      margin-bottom: 12px;
-    }
-
-    .row {
+    .summary-row {
       display: flex;
       justify-content: space-between;
-      padding: 8px 0;
-      color: #555;
+      gap: 15px;
+      padding: 9px 0;
+      border-bottom: 1px solid #e5e7eb;
     }
 
-    .row.total {
-      border-top: 1px solid #ddd;
-      margin-top: 8px;
-      padding-top: 14px;
+    .summary-row:last-child {
+      border-bottom: none;
+    }
+
+    .summary-label {
+      color: #666;
+    }
+
+    .summary-value {
       font-weight: bold;
-      color: #222;
+      text-align: right;
     }
 
     .receive {
-      color: #15803d;
-      font-weight: bold;
+      color: #16a34a;
     }
 
     .fee {
       color: #dc2626;
     }
 
-    .withdraw-btn {
+    .submit-btn {
       width: 100%;
-      margin-top: 22px;
       padding: 15px;
       border: none;
-      border-radius: 10px;
+      border-radius: 11px;
       background: #2563eb;
       color: white;
-      font-size: 16px;
+      font-size: 17px;
       font-weight: bold;
       cursor: pointer;
     }
 
-    .withdraw-btn:disabled {
-      opacity: 0.6;
+    .submit-btn:disabled {
+      background: #aeb8c8;
       cursor: not-allowed;
     }
 
     .message {
-      display: none;
       margin-top: 15px;
       padding: 13px;
-      border-radius: 9px;
-      text-align: center;
-      line-height: 1.4;
+      border-radius: 10px;
+      display: none;
+      line-height: 1.5;
     }
 
     .success {
@@ -182,118 +187,247 @@
       color: #991b1b;
     }
 
-    .notice {
-      margin-top: 18px;
-      padding: 13px;
-      background: #fff7ed;
-      color: #9a3412;
-      border-radius: 9px;
-      font-size: 13px;
-      line-height: 1.5;
+    .info-box {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 15px;
+      border-radius: 8px;
+      line-height: 1.6;
+      color: #334155;
+    }
+
+    .info-box h2 {
+      font-size: 19px;
+      margin-bottom: 8px;
+      color: #1e40af;
+    }
+
+    .info-box ul {
+      margin-left: 20px;
+      margin-top: 8px;
+    }
+
+    .info-box li {
+      margin-bottom: 7px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: 15px;
+      }
+
+      .logo {
+        font-size: 20px;
+      }
+
+      .container {
+        margin-top: 18px;
+      }
+
+      .card {
+        padding: 19px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+
+      .balance {
+        font-size: 30px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="header">
+  <header class="header">
     <div class="logo">SurveyFlow</div>
-    <a href="dashboard.html" class="back">← Dashboard</a>
-  </div>
 
-  <div class="container">
+    <button class="back-btn" onclick="goBack()">
+      Dashboard
+    </button>
+  </header>
 
-    <div class="card">
+  <main class="container">
 
-      <h1>Withdraw Funds</h1>
+    <div id="loading" class="loading">
+      Loading your account...
+    </div>
 
-      <p class="subtitle">
-        Enter the amount you want to withdraw. Your withdrawal
-        fee will be shown before you submit the request.
-      </p>
+    <div id="withdrawPage" class="hidden">
 
-      <div class="balance-box">
-        <div class="balance-label">Available Balance</div>
-        <div class="balance" id="balance">$0.00</div>
+      <div class="card">
+
+        <h1>Withdraw</h1>
+
+        <p class="subtitle">
+          Withdraw your eligible SurveyFlow rewards using your preferred payment method.
+        </p>
+
+        <div class="balance-box">
+          <div class="balance-label">
+            Available Balance
+          </div>
+
+          <div class="balance" id="balanceDisplay">
+            $0.00
+          </div>
+        </div>
+
+        <label for="amount">
+          Withdrawal Amount
+        </label>
+
+        <input
+          type="number"
+          id="amount"
+          min="0"
+          step="0.01"
+          placeholder="Enter amount"
+        >
+
+        <label for="method">
+          Withdrawal Method
+        </label>
+
+        <select id="method">
+          <option value="">
+            Select withdrawal method
+          </option>
+
+          <option value="PayPal">
+            PayPal
+          </option>
+
+          <option value="Bank Transfer">
+            Bank Transfer
+          </option>
+
+          <option value="Crypto">
+            Crypto
+          </option>
+        </select>
+
+        <div class="summary">
+
+          <div class="summary-row">
+            <span class="summary-label">
+              Withdrawal amount
+            </span>
+
+            <span class="summary-value" id="amountDisplay">
+              $0.00
+            </span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">
+              Withdrawal fee (5%)
+            </span>
+
+            <span class="summary-value fee" id="feeDisplay">
+              $0.00
+            </span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">
+              You receive
+            </span>
+
+            <span class="summary-value receive" id="receiveDisplay">
+              $0.00
+            </span>
+          </div>
+
+          <div class="summary-row">
+            <span class="summary-label">
+              Total deducted
+            </span>
+
+            <span class="summary-value" id="totalDisplay">
+              $0.00
+            </span>
+          </div>
+
+        </div>
+
+        <button
+          id="submitBtn"
+          class="submit-btn"
+          disabled
+        >
+          Submit Withdrawal Request
+        </button>
+
+        <div id="message" class="message"></div>
+
       </div>
 
-      <label for="amount">
-        Withdrawal Amount
-      </label>
 
-      <input
-        type="number"
-        id="amount"
-        min="1"
-        step="0.01"
-        placeholder="Enter amount"
-      >
+      <div class="card">
 
-      <label for="method">
-        Withdrawal Method
-      </label>
+        <div class="info-box">
 
-      <select id="method">
-        <option value="">Select withdrawal method</option>
-        <option value="paypal">PayPal</option>
-        <option value="bank">Bank Transfer</option>
-        <option value="crypto">Crypto</option>
-      </select>
+          <h2>Withdrawal Information</h2>
 
-      <div class="summary">
+          <p>
+            Please review the following information before submitting your withdrawal.
+          </p>
 
-        <div class="summary-title">
-          Withdrawal Summary
+          <ul>
+            <li>
+              A 5% withdrawal processing fee is applied to each withdrawal.
+            </li>
+
+            <li>
+              The fee is included in the total amount deducted from your balance.
+            </li>
+
+            <li>
+              Your withdrawal request will initially have a
+              <strong>Pending</strong> status.
+            </li>
+
+            <li>
+              Withdrawals are subject to eligibility and account verification.
+            </li>
+
+            <li>
+              Make sure your payment information is correct before submitting a request.
+            </li>
+
+            <li>
+              Processing time may vary depending on the selected payment method.
+            </li>
+          </ul>
+
         </div>
 
-        <div class="row">
-          <span>Withdrawal amount</span>
-          <span id="withdrawAmount">$0.00</span>
-        </div>
-
-        <div class="row">
-          <span>Withdrawal fee (5%)</span>
-          <span class="fee" id="fee">$0.00</span>
-        </div>
-
-        <div class="row">
-          <span>You receive</span>
-          <span class="receive" id="receive">$0.00</span>
-        </div>
-
-        <div class="row total">
-          <span>Total deducted</span>
-          <span id="total">$0.00</span>
-        </div>
-
-      </div>
-
-      <button
-        class="withdraw-btn"
-        id="withdrawBtn"
-        disabled
-      >
-        Submit Withdrawal Request
-      </button>
-
-      <div id="message" class="message"></div>
-
-      <div class="notice">
-        <strong>Withdrawal fee:</strong>
-        A 5% fee is applied to each withdrawal.
-        The fee and amount you receive are displayed before
-        you submit your request.
       </div>
 
     </div>
 
-  </div>
+  </main>
 
 
+  <!-- Firebase -->
   <script type="module">
 
-    import { initializeApp }
-      from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
     import {
       getAuth,
@@ -311,24 +445,27 @@
 
 
     /*
-    ==========================================================
-    SURVEYFLOW FIREBASE CONFIG
-    ==========================================================
+      IMPORTANT:
+      Use the SAME Firebase configuration
+      that you already use for SurveyFlow.
 
-    Replace ONLY the values below with the SAME Firebase
-    configuration you already use for SurveyFlow.
-
-    Do NOT create another Firebase project.
-    ==========================================================
+      Do NOT create a new Firebase project.
     */
 
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_STORAGE_BUCKET",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
+
+      apiKey: "AIzaSyA0NEph2RV5-r6Nq-WqRPdcZSzVWRDrfnQ",
+
+      authDomain: "surveyflow-c8611.firebaseapp.com",
+
+      projectId: "surveyflow-c8611",
+
+      storageBucket: "surveyflow-c8611.firebasestorage.app",
+
+      messagingSenderId: "968026283456",
+
+      appId: "1:968026283456:web:b0c87b9dd7255f4e16fc25"
+
     };
 
 
@@ -340,125 +477,109 @@
 
 
     /*
-    ==========================================================
-    ELEMENTS
-    ==========================================================
-    */
-
-    const balanceElement =
-      document.getElementById("balance");
-
-    const amountInput =
-      document.getElementById("amount");
-
-    const methodInput =
-      document.getElementById("method");
-
-    const withdrawAmount =
-      document.getElementById("withdrawAmount");
-
-    const feeElement =
-      document.getElementById("fee");
-
-    const receiveElement =
-      document.getElementById("receive");
-
-    const totalElement =
-      document.getElementById("total");
-
-    const withdrawBtn =
-      document.getElementById("withdrawBtn");
-
-    const message =
-      document.getElementById("message");
-
-
-    /*
-    ==========================================================
-    SETTINGS
-    ==========================================================
+      Withdrawal fee
+      5% = 0.05
     */
 
     const FEE_PERCENT = 0.05;
 
-    let userBalance = 0;
 
     let currentUser = null;
 
+    let userBalance = 0;
 
-    /*
-    ==========================================================
-    MESSAGE
-    ==========================================================
-    */
+
+    const loading = document.getElementById("loading");
+
+    const withdrawPage = document.getElementById("withdrawPage");
+
+    const balanceDisplay = document.getElementById("balanceDisplay");
+
+    const amountInput = document.getElementById("amount");
+
+    const methodInput = document.getElementById("method");
+
+    const amountDisplay = document.getElementById("amountDisplay");
+
+    const feeDisplay = document.getElementById("feeDisplay");
+
+    const receiveDisplay = document.getElementById("receiveDisplay");
+
+    const totalDisplay = document.getElementById("totalDisplay");
+
+    const submitBtn = document.getElementById("submitBtn");
+
+    const message = document.getElementById("message");
+
+
+    function money(value) {
+
+      return "$" + Number(value || 0).toFixed(2);
+
+    }
+
 
     function showMessage(text, type) {
 
       message.textContent = text;
 
-      message.className =
-        "message " + type;
+      message.className = "message " + type;
 
     }
 
 
-    /*
-    ==========================================================
-    FORMAT MONEY
-    ==========================================================
-    */
+    function clearMessage() {
 
-    function money(value) {
+      message.textContent = "";
 
-      return "$" + Number(value).toFixed(2);
+      message.className = "message";
 
     }
 
 
-    /*
-    ==========================================================
-    CALCULATE WITHDRAWAL
-    ==========================================================
-    */
+    function updateSummary() {
 
-    function calculateWithdrawal() {
+      const amount = Number(amountInput.value) || 0;
 
-      const amount =
-        Number(amountInput.value) || 0;
+      const fee = amount * FEE_PERCENT;
 
-      const fee =
-        amount * FEE_PERCENT;
+      const total = amount + fee;
 
-      const total =
-        amount + fee;
-
-      const receive =
-        amount;
-
-      withdrawAmount.textContent =
-        money(amount);
-
-      feeElement.textContent =
-        money(fee);
-
-      receiveElement.textContent =
-        money(receive);
-
-      totalElement.textContent =
-        money(total);
+      const receive = amount;
 
 
-      if (
+      amountDisplay.textContent = money(amount);
+
+      feeDisplay.textContent = money(fee);
+
+      receiveDisplay.textContent = money(receive);
+
+      totalDisplay.textContent = money(total);
+
+
+      const validAmount =
         amount > 0 &&
-        total <= userBalance &&
-        methodInput.value !== ""
-      ) {
+        total <= userBalance;
 
-        withdrawBtn.disabled = false;
+
+      const validMethod =
+        methodInput.value !== "";
+
+
+      submitBtn.disabled =
+        !(validAmount && validMethod);
+
+
+      if (amount > 0 && total > userBalance) {
+
+        showMessage(
+          "The withdrawal amount plus the 5% fee is greater than your available balance.",
+          "error"
+        );
 
       } else {
 
-        withdrawBtn.disabled = true;
+        clearMessage();
 
       }
 
@@ -467,104 +588,98 @@
 
     amountInput.addEventListener(
       "input",
-      calculateWithdrawal
+      updateSummary
     );
 
 
     methodInput.addEventListener(
       "change",
-      calculateWithdrawal
+      updateSummary
     );
 
 
-    /*
-    ==========================================================
-    LOAD USER
-    ==========================================================
-    */
+    async function loadUser() {
 
-    onAuthStateChanged(auth, async (user) => {
+      onAuthStateChanged(auth, async (user) => {
 
-      if (!user) {
+        if (!user) {
 
-        window.location.href = "login.html";
-
-        return;
-
-      }
-
-
-      currentUser = user;
-
-
-      try {
-
-        const userRef =
-          doc(db, "users", user.uid);
-
-        const userSnap =
-          await getDoc(userRef);
-
-
-        if (!userSnap.exists()) {
-
-          showMessage(
-            "Your SurveyFlow account information could not be found.",
-            "error"
-          );
+          window.location.href = "index.html";
 
           return;
 
         }
 
 
-        const data =
-          userSnap.data();
+        currentUser = user;
 
 
-        /*
-        Read the existing SurveyFlow balance.
-        */
+        try {
 
-        userBalance =
-          Number(data.balance || 0);
+          const userRef =
+            doc(db, "users", user.uid);
 
 
-        balanceElement.textContent =
-          money(userBalance);
+          const userSnap =
+            await getDoc(userRef);
 
 
-        calculateWithdrawal();
+          if (!userSnap.exists()) {
+
+            userBalance = 0;
+
+          } else {
+
+            const data =
+              userSnap.data();
 
 
-      } catch (error) {
+            userBalance =
+              Number(data.balance || 0);
 
-        console.error(error);
-
-        showMessage(
-          "Unable to load your balance.",
-          "error"
-        );
-
-      }
-
-    });
+          }
 
 
-    /*
-    ==========================================================
-    SUBMIT WITHDRAWAL REQUEST
-    ==========================================================
-    */
+          balanceDisplay.textContent =
+            money(userBalance);
 
-    withdrawBtn.addEventListener(
+
+          loading.classList.add("hidden");
+
+          withdrawPage.classList.remove("hidden");
+
+
+          updateSummary();
+
+
+        } catch (error) {
+
+          console.error(error);
+
+
+          loading.textContent =
+            "Unable to load your account. Please try again.";
+
+        }
+
+      });
+
+    }
+
+
+    submitBtn.addEventListener(
       "click",
       async () => {
 
+        clearMessage();
+
+
         if (!currentUser) {
 
-          window.location.href =
-            "login.html";
+          showMessage(
+            "Please log in before requesting a withdrawal.",
+            "error"
+          );
 
           return;
 
@@ -574,21 +689,15 @@
         const amount =
           Number(amountInput.value);
 
-        const fee =
-          amount * FEE_PERCENT;
 
-        const total =
-          amount + fee;
+        const method =
+          methodInput.value;
 
-
-        /*
-        Validate amount.
-        */
 
         if (!amount || amount <= 0) {
 
           showMessage(
-            "Enter a valid withdrawal amount.",
+            "Please enter a valid withdrawal amount.",
             "error"
           );
 
@@ -597,27 +706,7 @@
         }
 
 
-        /*
-        Prevent withdrawal beyond balance.
-        */
-
-        if (total > userBalance) {
-
-          showMessage(
-            "Your balance is not enough to cover the withdrawal and fee.",
-            "error"
-          );
-
-          return;
-
-        }
-
-
-        /*
-        Require withdrawal method.
-        */
-
-        if (!methodInput.value) {
+        if (!method) {
 
           showMessage(
             "Please select a withdrawal method.",
@@ -629,50 +718,39 @@
         }
 
 
-        const confirmed =
-          confirm(
-            "Withdrawal: " +
-            money(amount) +
-            "\n\n" +
-            "Fee: " +
-            money(fee) +
-            "\n\n" +
-            "Total deducted: " +
-            money(total) +
-            "\n\n" +
-            "You receive: " +
-            money(amount) +
-            "\n\n" +
-            "Submit this withdrawal request?"
+        const fee =
+          amount * FEE_PERCENT;
+
+
+        const total =
+          amount + fee;
+
+
+        if (total > userBalance) {
+
+          showMessage(
+            "Your balance is not sufficient to cover the withdrawal and 5% fee.",
+            "error"
           );
-
-
-        if (!confirmed) {
 
           return;
 
         }
 
 
-        withdrawBtn.disabled = true;
+        submitBtn.disabled = true;
 
-        withdrawBtn.textContent =
+        submitBtn.textContent =
           "Submitting...";
 
 
         try {
 
-          /*
-          Create a withdrawal request.
-
-          IMPORTANT:
-          This does NOT directly deduct the balance.
-          The secure backend/admin processing step will
-          handle the actual balance deduction.
-          */
-
           await addDoc(
-            collection(db, "withdrawalRequests"),
+            collection(
+              db,
+              "withdrawalRequests"
+            ),
             {
 
               userId:
@@ -697,7 +775,7 @@
                 5,
 
               method:
-                methodInput.value,
+                method,
 
               status:
                 "pending",
@@ -710,7 +788,7 @@
 
 
           showMessage(
-            "Withdrawal request submitted successfully. Your request is pending processing.",
+            "Your withdrawal request has been submitted successfully and is pending processing.",
             "success"
           );
 
@@ -719,12 +797,14 @@
 
           methodInput.value = "";
 
-          calculateWithdrawal();
+
+          updateSummary();
 
 
         } catch (error) {
 
           console.error(error);
+
 
           showMessage(
             "Unable to submit your withdrawal request. Please try again.",
@@ -733,13 +813,26 @@
 
         }
 
-        withdrawBtn.disabled = true;
 
-        withdrawBtn.textContent =
+        submitBtn.textContent =
           "Submit Withdrawal Request";
+
+
+        updateSummary();
 
       }
     );
+
+
+    window.goBack = function() {
+
+      window.location.href =
+        "dashboard.html";
+
+    };
+
+
+    loadUser();
 
   </script>
 
