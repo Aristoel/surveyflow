@@ -668,160 +668,75 @@
 
 
     submitBtn.addEventListener(
-      "click",
-      async () => {
-
-        clearMessage();
-
-
-        if (!currentUser) {
-
-          showMessage(
-            "Please log in before requesting a withdrawal.",
-            "error"
-          );
-
-          return;
-
-        }
-
-
-        const amount =
-          Number(amountInput.value);
-
-
-        const method =
-          methodInput.value;
-
-
-        if (!amount || amount <= 0) {
-
-          showMessage(
-            "Please enter a valid withdrawal amount.",
-            "error"
-          );
-
-          return;
-
-        }
-
-
-        if (!method) {
-
-          showMessage(
-            "Please select a withdrawal method.",
-            "error"
-          );
-
-          return;
-
-        }
-
-
-        const fee =
-          amount * FEE_PERCENT;
-
-
-        const total =
-          amount + fee;
-
-
-        if (total > userBalance) {
-
-          showMessage(
-            "Your balance is not sufficient to cover the withdrawal and 5% fee.",
-            "error"
-          );
-
-          return;
-
-        }
-
-
-        submitBtn.disabled = true;
-
-        submitBtn.textContent =
-          "Submitting...";
-
-
-        try {
-
-          await addDoc(
-            collection(
-              db,
-              "withdrawalRequests"
-            ),
-            {
-
-              userId:
-                currentUser.uid,
-
-              email:
-                currentUser.email || "",
-
-              amount:
-                amount,
-
-              fee:
-                fee,
-
-              totalDeducted:
-                total,
-
-              amountToReceive:
-                amount,
-
-              feePercent:
-                5,
-
-              method:
-                method,
-
-              status:
-                "pending",
-
-              createdAt:
-                serverTimestamp()
-
-            }
-          );
-
-
-          showMessage(
-            "Your withdrawal request has been submitted successfully and is pending processing.",
-            "success"
-          );
-
-
-          amountInput.value = "";
-
-          methodInput.value = "";
-
-
-          updateSummary();
-
-
-        } catch (error) {
-
-          console.error(error);
-
-
-          showMessage(
-            "Unable to submit your withdrawal request. Please try again.",
-            "error"
-          );
-
-        }
-
-
-        submitBtn.textContent =
-          "Submit Withdrawal Request";
-
-
-        updateSummary();
-
-      }
+  "click",
+  async () => {
+
+    clearMessage();
+
+    if (!currentUser) {
+      showMessage(
+        "Please log in before requesting a withdrawal.",
+        "error"
+      );
+      return;
+    }
+
+    const amount = Number(amountInput.value);
+    const method = methodInput.value;
+
+    if (!amount || amount <= 0) {
+      showMessage(
+        "Please enter a valid withdrawal amount.",
+        "error"
+      );
+      return;
+    }
+
+    if (!method) {
+      showMessage(
+        "Please select a withdrawal method.",
+        "error"
+      );
+      return;
+    }
+
+    const fee = amount * FEE_PERCENT;
+    const total = amount + fee;
+
+    if (total > userBalance) {
+      showMessage(
+        "Your balance is not sufficient to cover the withdrawal and 5% fee.",
+        "error"
+      );
+      return;
+    }
+
+    /*
+      Save the withdrawal information temporarily
+      so the payment-details page can complete it.
+    */
+
+    sessionStorage.setItem(
+      "surveyflowWithdrawalDraft",
+      JSON.stringify({
+        amount: amount,
+        fee: fee,
+        totalDeducted: total,
+        amountToReceive: amount,
+        feePercent: 5,
+        method: method
+      })
     );
+
+    /*
+      Send the user to the payment-details page.
+    */
+
+    window.location.href =
+      "withdrawal-details.html";
+
+  }
+);
 
 
     window.goBack = function() {
