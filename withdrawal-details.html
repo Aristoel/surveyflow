@@ -920,14 +920,17 @@
 
       } catch (error) {
 
-        console.error(error);
+  console.error("Withdrawal submission error:", error);
 
-        showMessage(
-          "Unable to submit your withdrawal request. Please try again.",
-          "error"
-        );
+  showMessage(
+    "Firebase error: " +
+    (error.code || "unknown") +
+    " — " +
+    (error.message || "Unknown error"),
+    "error"
+  );
 
-        saveBtn.disabled = false;
+  saveBtn.disabled = false; 
 
         saveBtn.textContent =
           "Submit Withdrawal";
