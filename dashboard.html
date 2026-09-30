@@ -216,8 +216,8 @@
       Research opportunities available to your account.
     </p>
 
-    <div id="surveyList" class="empty">
-      No surveys are available yet.
+    <div id="surveyList">
+    <div id="fullscreen" style="max-width: 950px; margin: auto;"></div>
     </div>
 
   </section>
@@ -387,7 +387,58 @@
       );
 
     }
+    // =========================================
+    // CPX RESEARCH SURVEY INTEGRATION
+    // =========================================
 
+    if (!window.cpxLoaded) {
+
+        window.cpxLoaded = true;
+
+        const script1 = {
+            div_id: "fullscreen",
+            theme_style: 1,
+            order_by: 2,
+            limit_surveys: 7
+        };
+
+        window.config = {
+            general_config: {
+                app_id: 36690,
+                ext_user_id: user.uid,
+                email: user.email || "",
+                username: "",
+                secure_hash: "",
+                subid_1: "",
+                subid_2: ""
+            },
+
+            script_config: [script1],
+
+            debug: false,
+
+            useIFrame: true,
+
+            iFramePosition: 1
+        };
+
+        const cpxScript = document.createElement("script");
+
+        cpxScript.type = "text/javascript";
+
+        cpxScript.src =
+            "https://cdn.cpx-research.com/assets/js/script_tag_v2.0.js";
+
+        cpxScript.onload = function () {
+            console.log("CPX Research loaded successfully.");
+        };
+
+        cpxScript.onerror = function () {
+            console.error("CPX Research failed to load.");
+        };
+
+        document.body.appendChild(cpxScript);
+    }
   });
 
 </script>
