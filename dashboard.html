@@ -388,57 +388,71 @@
 
     }
     // =========================================
-    // CPX RESEARCH SURVEY INTEGRATION
-    // =========================================
+// CPX RESEARCH SURVEY INTEGRATION
+// =========================================
 
-    if (!window.cpxLoaded) {
+const script1 = {
+    div_id: "fullscreen",
+    theme_style: 1,
+    order_by: 2,
+    limit_surveys: 7
+};
 
-        window.cpxLoaded = true;
+window.config = {
+    general_config: {
+        app_id: 36690,
+        ext_user_id: user.uid,
+        email: user.email || "",
+        username: "",
+        secure_hash: "",
+        subid_1: "",
+        subid_2: ""
+    },
 
-        const script1 = {
-            div_id: "fullscreen",
-            theme_style: 1,
-            order_by: 2,
-            limit_surveys: 7
-        };
+    script_config: [script1],
 
-        window.config = {
-            general_config: {
-                app_id: 36690,
-                ext_user_id: user.uid,
-                email: user.email || "",
-                username: "",
-                secure_hash: "",
-                subid_1: "",
-                subid_2: ""
-            },
+    debug: true,
 
-            script_config: [script1],
+    useIFrame: true,
 
-            debug: false,
+    iFramePosition: 1,
 
-            useIFrame: true,
+    functions: {
+        no_surveys_available: function () {
+            document.getElementById("fullscreen").innerHTML =
+                "<p style='text-align:center;padding:25px;'>No surveys are available right now. Please check again later.</p>";
+        },
 
-            iFramePosition: 1
-        };
+        count_new_surveys: function (count) {
+            console.log("CPX surveys:", count);
+        },
 
-        const cpxScript = document.createElement("script");
+        get_all_surveys: function (surveys) {
+            console.log("CPX surveys loaded:", surveys);
+        },
 
-        cpxScript.type = "text/javascript";
-
-        cpxScript.src =
-            "https://cdn.cpx-research.com/assets/js/script_tag_v2.0.js";
-
-        cpxScript.onload = function () {
-            console.log("CPX Research loaded successfully.");
-        };
-
-        cpxScript.onerror = function () {
-            console.error("CPX Research failed to load.");
-        };
-
-        document.body.appendChild(cpxScript);
+        get_transaction: function (transactions) {
+            console.log("CPX transactions:", transactions);
+        }
     }
+};
+
+const cpxScript = document.createElement("script");
+
+cpxScript.type = "text/javascript";
+
+cpxScript.src =
+    "https://cdn.cpx-research.com/assets/js/script_tag_v2.0.js";
+
+cpxScript.onload = function () {
+    console.log("CPX Research loaded successfully.");
+};
+
+cpxScript.onerror = function () {
+    console.error("CPX Research failed to load.");
+};
+
+document.body.appendChild(cpxScript);
   });
 
 </script>
