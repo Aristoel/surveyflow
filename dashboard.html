@@ -205,7 +205,10 @@
       <h3>NGN Balance</h3>
       <div class="balance" id="balanceNGN">₦0.00</div>
     </div>
-
+<div class="balance-card">
+  <h3>SF Coins</h3>
+  <div class="balance" id="sfCoins">0</div>
+</div>
   </section>
 
   <section class="section">
@@ -362,20 +365,29 @@
 
 
         const usd =
-          Number(data.balanceUSD || 0);
+    Number(data.balanceUSD || 0);
 
-        const ngn =
-          Number(data.balanceNGN || 0);
+const ngn =
+    Number(data.balanceNGN || 0);
 
+const sfCoins =
+    Number(data.sfCoins || 0);
 
-        document.getElementById("balanceUSD").textContent =
-          "$" + usd.toFixed(2);
+document.getElementById("balanceUSD").textContent =
+    "$" + usd.toFixed(2);
 
-        document.getElementById("balanceNGN").textContent =
-          "₦" + ngn.toLocaleString("en-NG", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          });
+document.getElementById("balanceNGN").textContent =
+    "₦" + ngn.toLocaleString("en-NG", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+
+const sfCoinsElement = document.getElementById("sfCoins");
+
+if (sfCoinsElement) {
+    sfCoinsElement.textContent =
+        sfCoins.toLocaleString("en-US");
+        }
 
       }
 
