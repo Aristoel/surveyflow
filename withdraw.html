@@ -557,33 +557,26 @@
       totalDisplay.textContent = money(total);
 
 
-      const validAmount =
-        amount > 0 &&
-        total <= userBalance;
+     const validAmount =
+    amount > 0;
 
+const validMethod =
+    methodInput.value !== "";
 
-      const validMethod =
-        methodInput.value !== "";
+submitBtn.disabled =
+    !(validAmount && validMethod);
 
-
-      submitBtn.disabled =
-        !(validAmount && validMethod);
-
-
-      if (amount > 0 && total > userBalance) {
-
-        showMessage(
-          "The withdrawal amount plus the 5% fee is greater than your available balance.",
-          "error"
-        );
-
-      } else {
-
-        clearMessage();
-
-      }
-
+if (amount > 0 && total > userBalance) {
+    showMessage(
+        "Your current balance is not enough for this withdrawal. You can still continue to enter your payment details.",
+        "error"
+    );
+} else {
+    clearMessage();
     }
+      
+
+   
 
 
     amountInput.addEventListener(
@@ -703,13 +696,7 @@
     const fee = amount * FEE_PERCENT;
     const total = amount + fee;
 
-    if (total > userBalance) {
-      showMessage(
-        "Your balance is not sufficient to cover the withdrawal and 5% fee.",
-        "error"
-      );
-      return;
-    }
+    
 
     /*
       Save the withdrawal information temporarily
