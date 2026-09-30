@@ -388,71 +388,50 @@
 
     }
     // =========================================
-// CPX RESEARCH SURVEY INTEGRATION
+// =========================================
+// CPX RESEARCH SURVEY WALL
 // =========================================
 
-const script1 = {
-    div_id: "fullscreen",
-    theme_style: 1,
-    order_by: 2,
-    limit_surveys: 7
-};
+const surveyContainer = document.getElementById("fullscreen");
 
-window.config = {
-    general_config: {
-        app_id: 36690,
-        ext_user_id: user.uid,
-        email: user.email || "",
-        username: "",
-        secure_hash: "",
-        subid_1: "",
-        subid_2: ""
-    },
+if (surveyContainer) {
+    const cpxUrl =
+        "https://wall.cpx-research.com/index.php?app_id=36690&ext_user_id=" +
+        encodeURIComponent(user.uid);
 
-    script_config: [script1],
+    surveyContainer.innerHTML = `
+        <iframe
+            src="${cpxUrl}"
+            style="
+                width:100%;
+                min-height:900px;
+                border:0;
+                border-radius:12px;
+                background:#fff;
+            "
+            title="SurveyFlow Surveys"
+            allow="payment">
+        </iframe>
 
-    debug: true,
-
-    useIFrame: true,
-
-    iFramePosition: 1,
-
-    functions: {
-        no_surveys_available: function () {
-            document.getElementById("fullscreen").innerHTML =
-                "<p style='text-align:center;padding:25px;'>No surveys are available right now. Please check again later.</p>";
-        },
-
-        count_new_surveys: function (count) {
-            console.log("CPX surveys:", count);
-        },
-
-        get_all_surveys: function (surveys) {
-            console.log("CPX surveys loaded:", surveys);
-        },
-
-        get_transaction: function (transactions) {
-            console.log("CPX transactions:", transactions);
-        }
-    }
-};
-
-const cpxScript = document.createElement("script");
-
-cpxScript.type = "text/javascript";
-
-cpxScript.src =
-    "https://cdn.cpx-research.com/assets/js/script_tag_v2.0.js";
-
-cpxScript.onload = function () {
-    console.log("CPX Research loaded successfully.");
-};
-
-cpxScript.onerror = function () {
-    console.error("CPX Research failed to load.");
-};
-
-document.body.appendChild(cpxScript);
+        <div style="text-align:center;margin:15px 0;">
+            <a
+                href="${cpxUrl}"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="
+                    display:inline-block;
+                    padding:12px 20px;
+                    background:#2563eb;
+                    color:white;
+                    text-decoration:none;
+                    border-radius:8px;
+                    font-weight:bold;
+                ">
+                Open Surveys
+            </a>
+        </div>
+    `;
+  }
   });
 
 </script>
