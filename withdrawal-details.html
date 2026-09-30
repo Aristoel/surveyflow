@@ -611,27 +611,17 @@
   /*
     Authentication
   */
-
+let authReady = new Promise(function(resolve) {
   onAuthStateChanged(
     auth,
     function(user) {
-
-      if (!user) {
-
-        window.location.href =
-          "index.html";
-
-        return;
-
-      }
-
       currentUser = user;
-
+      resolve(user);
     }
   );
-
-
-  /*
+});
+ 
+      /*
     Submit withdrawal
   */
 
@@ -642,16 +632,17 @@
       clearMessage();
 
 
-      if (!currentUser) {
+      const user = await authReady;
 
-        showMessage(
-          "Please log in before submitting a withdrawal.",
-          "error"
-        );
+if (!user) {
+  showMessage(
+    "Your login session has expired. Please log in again.",
+    "error"
+  );
+  return;
+}
 
-        return;
-
-      }
+currentUser = user;
 
 
       if (!draft) {
