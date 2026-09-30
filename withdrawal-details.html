@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Withdrawal Details - SurveyFlow</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: #fff;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    }
+
+    .logo {
+      color: #2563eb;
+      font-size: 23px;
+      font-weight: bold;
+    }
+
+    .back {
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 11px 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+      margin: 25px auto;
+      padding: 0 16px 40px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.08);
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+
+    .section {
+      margin-bottom: 25px;
+    }
+
+    .section h2 {
+      font-size: 19px;
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d6dbe5;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 17px;
+      outline: none;
+      background: white;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #2563eb;
+    }
+
+    .method-box {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 14px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .notice {
+      background: #fff7ed;
+      border-left: 4px solid #f97316;
+      padding: 14px;
+      border-radius: 8px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .save-btn {
+      width: 100%;
+      padding: 15px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 11px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .message {
+      display: none;
+      margin-top: 15px;
+      padding: 13px;
+      border-radius: 10px;
+      line-height: 1.5;
+    }
+
+    .success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .security {
+      margin-top: 20px;
+      color: #666;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 19px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="logo">SurveyFlow</div>
+
+    <button class="back" onclick="goBack()">
+      Withdraw
+    </button>
+  </header>
+
+
+  <main class="container">
+
+    <div class="card">
+
+      <h1>Withdrawal Details</h1>
+
+      <p class="subtitle">
+        Enter the payment information needed to receive your withdrawal.
+      </p>
+
+
+      <div class="section">
+
+        <label for="method">
+          Payment Method
+        </label>
+
+        <select id="method">
+
+          <option value="">
+            Select payment method
+          </option>
+
+          <option value="PayPal">
+            PayPal
+          </option>
+
+          <option value="Bank Transfer">
+            Bank Transfer
+          </option>
+
+          <option value="Crypto">
+            Crypto
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- PAYPAL -->
+
+      <div id="paypalFields" class="section hidden">
+
+        <h2>PayPal Details</h2>
+
+        <label for="paypalEmail">
+          PayPal Email
+        </label>
+
+        <input
+          type="email"
+          id="paypalEmail"
+          placeholder="you@example.com"
+        >
+
+      </div>
+
+
+      <!-- BANK -->
+
+      <div id="bankFields" class="section hidden">
+
+        <h2>Bank Transfer Details</h2>
+
+        <div class="notice">
+          Only enter payment information that is required for your
+          selected withdrawal method. Do not enter passwords, PINs,
+          security codes, or online-banking login information.
+        </div>
+
+        <label for="accountName">
+          Account Holder Name
+        </label>
+
+        <input
+          type="text"
+          id="accountName"
+          placeholder="Full name on account"
+        >
+
+        <label for="bankName">
+          Bank Name
+        </label>
+
+        <input
+          type="text"
+          id="bankName"
+          placeholder="Bank name"
+        >
+
+        <label for="accountNumber">
+          Account Number
+        </label>
+
+        <input
+          type="text"
+          id="accountNumber"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="Account number"
+        >
+
+        <label for="routingNumber">
+          Routing Number
+        </label>
+
+        <input
+          type="text"
+          id="routingNumber"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="Routing number"
+        >
+
+      </div>
+
+
+      <!-- CRYPTO -->
+
+      <div id="cryptoFields" class="section hidden">
+
+        <h2>Crypto Details</h2>
+
+        <label for="network">
+          Network
+        </label>
+
+        <select id="network">
+
+          <option value="">
+            Select network
+          </option>
+
+          <option value="Bitcoin">
+            Bitcoin
+          </option>
+
+          <option value="Ethereum">
+            Ethereum
+          </option>
+
+          <option value="USDT-TRC20">
+            USDT - TRC20
+          </option>
+
+          <option value="USDT-ERC20">
+            USDT - ERC20
+          </option>
+
+        </select>
+
+
+        <label for="walletAddress">
+          Wallet Address
+        </label>
+
+        <input
+          type="text"
+          id="walletAddress"
+          autocomplete="off"
+          placeholder="Enter wallet address"
+        >
+
+      </div>
+
+
+      <button
+        id="saveBtn"
+        class="save-btn"
+      >
+        Continue
+      </button>
+
+
+      <div id="message" class="message"></div>
+
+
+      <p class="security">
+        SurveyFlow will never ask for your banking password, card PIN,
+        account password, or security code for a withdrawal.
+      </p>
+
+    </div>
+
+  </main>
+
+
+  <script>
+
+    const method =
+      document.getElementById("method");
+
+    const paypalFields =
+      document.getElementById("paypalFields");
+
+    const bankFields =
+      document.getElementById("bankFields");
+
+    const cryptoFields =
+      document.getElementById("cryptoFields");
+
+    const saveBtn =
+      document.getElementById("saveBtn");
+
+    const message =
+      document.getElementById("message");
+
+
+    function showMessage(text, type) {
+
+      message.textContent = text;
+
+      message.className =
+        "message " + type;
+
+    }
+
+
+    function clearMessage() {
+
+      message.textContent = "";
+
+      message.className =
+        "message";
+
+    }
+
+
+    method.addEventListener(
+      "change",
+      function () {
+
+        paypalFields.classList.add("hidden");
+
+        bankFields.classList.add("hidden");
+
+        cryptoFields.classList.add("hidden");
+
+        clearMessage();
+
+
+        if (method.value === "PayPal") {
+
+          paypalFields.classList.remove("hidden");
+
+        }
+
+
+        if (method.value === "Bank Transfer") {
+
+          bankFields.classList.remove("hidden");
+
+        }
+
+
+        if (method.value === "Crypto") {
+
+          cryptoFields.classList.remove("hidden");
+
+        }
+
+      }
+    );
+
+
+    saveBtn.addEventListener(
+      "click",
+      function () {
+
+        clearMessage();
+
+
+        if (!method.value) {
+
+          showMessage(
+            "Please select a payment method.",
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        if (method.value === "PayPal") {
+
+          const email =
+            document.getElementById("paypalEmail").value.trim();
+
+
+          if (!email) {
+
+            showMessage(
+              "Please enter your PayPal email.",
+              "error"
+            );
+
+            return;
+
+          }
+
+        }
+
+
+        if (method.value === "Bank Transfer") {
+
+          const accountName =
+            document.getElementById("accountName").value.trim();
+
+          const bankName =
+            document.getElementById("bankName").value.trim();
+
+          const accountNumber =
+            document.getElementById("accountNumber").value.trim();
+
+          const routingNumber =
+            document.getElementById("routingNumber").value.trim();
+
+
+          if (
+            !accountName ||
+            !bankName ||
+            !accountNumber ||
+            !routingNumber
+          ) {
+
+            showMessage(
+              "Please complete all required bank-transfer fields.",
+              "error"
+            );
+
+            return;
+
+          }
+
+        }
+
+
+        if (method.value === "Crypto") {
+
+          const network =
+            document.getElementById("network").value;
+
+          const wallet =
+            document.getElementById("walletAddress").value.trim();
+
+
+          if (!network || !wallet) {
+
+            showMessage(
+              "Please select a network and enter your wallet address.",
+              "error"
+            );
+
+            return;
+
+          }
+
+        }
+
+
+        showMessage(
+          "Payment details accepted. The next step will connect these details to the withdrawal request.",
+          "success"
+        );
+
+      }
+    );
+
+
+    function goBack() {
+
+      window.location.href =
+        "withdraw.html";
+
+    }
+
+  </script>
+
+</body>
+  </html>
