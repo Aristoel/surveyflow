@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Available Surveys - SurveyFlow</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+    }
+
+    .header {
+      background: white;
+      padding: 18px 20px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      color: #2563eb;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .balance {
+      font-weight: 700;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 900px;
+      margin: 30px auto;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #667085;
+      margin-bottom: 25px;
+    }
+
+    .providers {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .provider {
+      background: white;
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    }
+
+    .provider-logo {
+      width: 55px;
+      height: 55px;
+      border-radius: 14px;
+      background: #eff6ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 23px;
+      font-weight: 800;
+      color: #2563eb;
+      margin-bottom: 15px;
+    }
+
+    .provider h2 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .provider p {
+      color: #667085;
+      line-height: 1.5;
+      min-height: 65px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 20px;
+      background: #ecfdf3;
+      color: #027a48;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .button {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #2563eb;
+      color: white;
+    }
+
+    .button:hover {
+      opacity: 0.92;
+    }
+
+    .disabled {
+      background: #98a2b3;
+      cursor: not-allowed;
+    }
+
+    .notice {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    @media (max-width: 650px) {
+
+      .providers {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        width: 94%;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+
+    <div class="logo">
+      SurveyFlow
+    </div>
+
+    <div class="balance">
+      Balance: ₦0.00
+    </div>
+
+  </div>
+
+
+  <div class="container">
+
+    <a class="back" href="dashboard.html">
+      ← Back to Dashboard
+    </a>
+
+    <h1>Available Surveys</h1>
+
+    <p class="subtitle">
+      Choose a survey provider and find surveys available to you.
+    </p>
+
+
+    <div class="notice">
+      Your SurveyFlow profile is used to help determine which surveys
+      you may be eligible for. Survey availability and rewards vary
+      by provider and eligibility.
+    </div>
+
+
+    <div class="providers">
+
+
+      <!-- CPX RESEARCH -->
+
+      <div class="provider">
+
+        <div class="provider-logo">
+          C
+        </div>
+
+        <h2>
+          CPX Research
+        </h2>
+
+        <p>
+          Participate in surveys supplied by CPX Research
+          and receive SurveyFlow rewards for verified
+          completed surveys.
+        </p>
+
+        <span class="status">
+          Provider
+        </span>
+
+        <button
+          class="button"
+          onclick="openProvider('cpx')"
+        >
+          Start CPX Surveys
+        </button>
+
+      </div>
+
+
+      <!-- AYET STUDIOS -->
+
+      <div class="provider">
+
+        <div class="provider-logo">
+          A
+        </div>
+
+        <h2>
+          ayeT-Studios
+        </h2>
+
+        <p>
+          Access surveys and other eligible research
+          activities supplied through ayeT-Studios.
+        </p>
+
+        <span class="status">
+          Provider
+        </span>
+
+        <button
+          class="button"
+          onclick="openProvider('ayet')"
+        >
+          Start ayeT Surveys
+        </button>
+
+      </div>
+
+
+      <!-- FUTURE PROVIDER -->
+
+      <div class="provider">
+
+        <div class="provider-logo">
+          +
+        </div>
+
+        <h2>
+          More Providers
+        </h2>
+
+        <p>
+          Additional survey providers can be connected
+          to SurveyFlow without changing your main
+          SurveyFlow profile.
+        </p>
+
+        <span class="status">
+          Coming soon
+        </span>
+
+        <button
+          class="button disabled"
+          disabled
+        >
+          Coming Soon
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    /*
+      IMPORTANT
+
+      These are intentionally NOT fake survey URLs.
+
+      We will insert the REAL CPX and ayeT integration
+      endpoints after connecting each provider.
+
+      Do not put secret API keys in this page.
+    */
+
+
+    const PROVIDERS = {
+
+      cpx: {
+        name: "CPX Research",
+
+        url: ""
+      },
+
+      ayet: {
+        name: "ayeT-Studios",
+
+        url: ""
+      }
+
+    };
+
+
+    function openProvider(provider) {
+
+      const selected =
+        PROVIDERS[provider];
+
+      if (!selected) {
+        return;
+      }
+
+
+      if (!selected.url) {
+
+        alert(
+          selected.name +
+          " is not connected yet. " +
+          "We will connect the provider next."
+        );
+
+        return;
+      }
+
+
+      window.location.href =
+        selected.url;
+    }
+
+  </script>
+
+</body>
+          </html>
