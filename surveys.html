@@ -291,64 +291,419 @@
     </div>
 
   </div>
-
+<div id="survey-list"></div>
 
   <script>
+/* ================================
+   SurveyFlow Survey Provider System
+   ================================ */
 
-    /*
-      IMPORTANT
+const CPX_WORKER_URL =
+  "https://surveyflow-cpx.aristoxchange.workers.dev/surveys";
 
-      These are intentionally NOT fake survey URLs.
+/*
+   IMPORTANT:
+   Keep your existing Firebase configuration
+   above this script exactly as it is.
+*/
 
-      We will insert the REAL CPX and ayeT integration
-      endpoints after connecting each provider.
+const PROVIDERS = {
+  cpx: {
+    name: "CPX Research",
+    connected: true
+  },
 
-      Do not put secret API keys in this page.
-    */
+  ayet: {
+    name: "ayeT-Studios",
+    connected: false
+  }
+};
 
 
-    const PROVIDERS = {
+/* ================================
+   Firebase authentication
+   ================================ */
 
-      cpx: {
-        name: "CPX Research",
+auth.onAuthStateChanged(async (user) => {
 
-        url: ""
-      },
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
 
-      ayet: {
-        name: "ayeT-Studios",
+  console.log("SurveyFlow user:", user.uid);
 
-        url: ""
+  await loadCPXSurveys(user);
+});
+
+
+/* ================================
+   Load CPX surveys
+   ================================ */
+
+async function loadCPXSurveys(user) {
+
+  const container =
+    document.getElementById("survey-list") ||
+    document.getElementById("surveys") ||
+    document.querySelector(".survey-list");
+
+  if (!container) {
+    console.error("Survey container not found.");
+    return;
+  }
+
+  container.innerHTML = `
+    <div style="
+      background:white;
+      padding:25px;
+      border-radius:14px;
+      text-align:center;
+      box-shadow:0 4px 15px rgba(0,0,0,.06);
+    ">
+      <div style="font-size:30px;">⏳</div>
+      <h3>Finding available surveys...</h3>
+      <p style="color:#666;">
+        Please wait while we check for surveys for your profile.
+      </p>
+    </div>
+  `;
+
+  try {
+
+    const url =
+      CPX_WORKER_URL +
+      "?ext_user_id=" +
+      encodeURIComponent(user.uid);
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
       }
+    });
 
-    };
-
-
-    function openProvider(provider) {
-
-      const selected =
-        PROVIDERS[provider];
-
-      if (!selected) {
-        return;
-      }
-
-
-      if (!selected.url) {
-
-        alert(
-          selected.name +
-          " is not connected yet. " +
-          "We will connect the provider next."
-        );
-
-        return;
-      }
-
-
-      window.location.href =
-        selected.url;
+    if (!response.ok) {
+      throw new Error(
+        "Survey server returned HTTP " + response.status
+      );
     }
+
+    const data = await response.json();
+
+    console.log("CPX response:", data);
+
+    if (data.status !== "success") {
+      throw new Error(
+        data.message || "Unable to load CPX surveys."
+      );
+    }
+
+    const surveys = data.surveys || [];
+
+    renderCPXSurveys(container, surveys);
+
+  } catch (error) {
+
+    console.error("CPX survey error:", error);
+
+    container.innerHTML = `
+      <div style="
+        background:white;
+        padding:25px;
+        border-radius:14px;
+        text-align:center;
+        box-shadow:0 4px 15px rgba(0,0,0,.06);
+      ">
+
+        <div style="font-size:42px;">⚠️</div>
+
+        <h3>Unable to load surveys</h3>
+
+        <p style="color:#666;">
+          Please try again in a moment.
+        </p>
+
+        <button
+          onclick="location.reload()"
+          style="
+            border:0;
+            padding:12px 20px;
+            border-radius:8px;
+            background:#2563eb;
+            color:white;
+            font-weight:700;
+            cursor:pointer;
+          "
+        >
+          Try Again
+        </button>
+
+      </div>
+    `;
+  }
+}
+
+
+/* ================================
+   Display CPX surveys
+   ================================ */
+
+function renderCPXSurveys(container, surveys) {
+
+  if (!surveys.length) {
+
+    container.innerHTML = `
+      <div style="
+        background:white;
+        padding:30px;
+        border-radius:14px;
+        text-align:center;
+        box-shadow:0 4px 15px rgba(0,0,0,.06);
+      ">
+
+        <div style="font-size:45px;">📋</div>
+
+        <h3>No surveys available right now</h3>
+
+        <p style="color:#666;">
+          New surveys can become available as your profile
+          matches new opportunities.
+        </p>
+
+        <button
+          onclick="location.reload()"
+          style="
+            border:0;
+            padding:12px 20px;
+            border-radius:8px;
+            background:#2563eb;
+            color:white;
+            font-weight:700;
+          "
+        >
+          Check Again
+        </button>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  container.innerHTML = "";
+
+  surveys.forEach((survey) => {
+
+    const card = document.createElement("div");
+
+    card.style.cssText = `
+      background:white;
+      padding:20px;
+      margin-bottom:16px;
+      border-radius:14px;
+      box-shadow:0 4px 15px rgba(0,0,0,.07);
+    `;
+
+    const payout =
+      Number(survey.payout || survey.payout_publisher_usd || 0);
+
+    const loi =
+      survey.loi || "—";
+
+    const category =
+      survey.category || "General";
+
+    const score =
+      survey.score || survey.quality_score || "—";
+
+    const surveyUrl =
+      survey.href_new || survey.href;
+
+    card.innerHTML = `
+
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        gap:12px;
+        align-items:flex-start;
+      ">
+
+        <div>
+
+          <div style="
+            font-size:12px;
+            color:#2563eb;
+            font-weight:700;
+            margin-bottom:6px;
+          ">
+            CPX RESEARCH
+          </div>
+
+          <h3 style="
+            margin:0 0 8px 0;
+          ">
+            ${escapeHtml(category)} Survey
+          </h3>
+
+        </div>
+
+        <div style="
+          font-size:20px;
+          font-weight:800;
+          color:#16a34a;
+          white-space:nowrap;
+        ">
+          $${payout.toFixed(2)}
+        </div>
+
+      </div>
+
+
+      <div style="
+        display:flex;
+        flex-wrap:wrap;
+        gap:10px;
+        margin:15px 0;
+      ">
+
+        <span style="
+          background:#f1f5f9;
+          padding:7px 10px;
+          border-radius:8px;
+          font-size:13px;
+        ">
+          ⏱ ${escapeHtml(String(loi))} min
+        </span>
+
+        <span style="
+          background:#f1f5f9;
+          padding:7px 10px;
+          border-radius:8px;
+          font-size:13px;
+        ">
+          ⭐ Score ${escapeHtml(String(score))}
+        </span>
+
+      </div>
+
+
+      <button
+        ${surveyUrl ? "" : "disabled"}
+        onclick="startCPXSurvey('${escapeAttribute(surveyUrl || "")}')"
+        style="
+          width:100%;
+          border:0;
+          padding:13px;
+          border-radius:9px;
+          background:${surveyUrl ? "#2563eb" : "#94a3b8"};
+          color:white;
+          font-weight:700;
+          cursor:${surveyUrl ? "pointer" : "not-allowed"};
+        "
+      >
+        ${surveyUrl ? "Start Survey" : "Unavailable"}
+      </button>
+
+    `;
+
+    container.appendChild(card);
+
+  });
+}
+
+
+/* ================================
+   Start CPX survey
+   ================================ */
+
+function startCPXSurvey(url) {
+
+  if (!url) {
+    alert("This survey is currently unavailable.");
+    return;
+  }
+
+  /*
+    CPX generated this URL specifically for
+    the current SurveyFlow user's ext_user_id.
+  */
+
+  window.location.href = url;
+}
+
+
+/* ================================
+   Safe HTML helpers
+   ================================ */
+
+function escapeHtml(value) {
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+function escapeAttribute(value) {
+
+  return String(value)
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'");
+}
+
+
+/* ================================
+   Provider buttons
+   ================================ */
+
+function openProvider(provider) {
+
+  if (provider === "cpx") {
+
+    const user = auth.currentUser;
+
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    loadCPXSurveys(user);
+    return;
+  }
+
+
+  if (provider === "ayet") {
+
+    alert(
+      "ayeT-Studios is being connected next."
+    );
+
+    return;
+  }
+
+}
+
+
+/* ================================
+   Refresh surveys
+   ================================ */
+
+function refreshSurveys() {
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  loadCPXSurveys(user);
+}
 
   </script>
 
